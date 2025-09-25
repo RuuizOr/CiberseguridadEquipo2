@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Chat Flask-SocketIO</title>
+    <title>Chat - Equipo 2</title>
+    <link rel="icon" href="icono.png" type="image/png">
     <style>
         * {
             margin: 0;
@@ -56,14 +57,14 @@
         label {
             font-weight: 500;
             color: white;
-            margin-bottom: 0.10rem; /* Reduce el espacio entre label y input */
+            margin-bottom: 0.10rem;
             display: block;
             font-size: 0.9rem;
         }
         
         input, select {
             width: 100%;
-            padding: 0.35rem 0.8rem; /* Menos padding arriba y abajo */
+            padding: 0.35rem 0.8rem;
             border: 1px solid rgba(74, 157, 95, 0.3);
             border-radius: 12px;
             font-size: 0.95rem;
@@ -294,9 +295,15 @@
 </div>
 
 <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
 <script>
     let socket;
     let conectado = false;
+    let crypt = new JSEncrypt({default_key_size: 2048});
+    let publicKeys = {};
+
+    crypt.getKey();
+    console.log("🔑 Claves RSA generadas");
 
     document.getElementById('opcion_grupo').addEventListener('change', function() {
         const op = this.value;
@@ -313,7 +320,14 @@
         }
         
         socket = io();
-        socket.emit('set_name', {nombre});
+        
+        const publicKey = crypt.getPublicKey();
+        console.log("📤 Clave pública enviada al servidor");
+        
+        socket.emit('set_name', {
+            nombre: nombre,
+            publicKey: publicKey
+        });
 
         let instr = document.getElementById('opcion_grupo').value;
         if (instr.startsWith('/join_group|')) {
@@ -334,10 +348,33 @@
         document.getElementById('input').style.display = '';
         conectado = true;
 
-        socket.on('server_message', function(msg) {
+        socket.on('server_message', function(data) {
             const msgsDiv = document.getElementById('msgs');
-            msgsDiv.innerHTML += `<div>${msg}</div>`;
+            if (typeof data === 'object' && data.encrypted) {
+                console.log(`📨 Mensaje CIFRADO recibido de: ${data.sender}`);
+                
+                try {
+                    const decrypted = crypt.decrypt(data.message);
+                    if (decrypted) {
+                        console.log(`✅ DESCIFRADO: "${decrypted}"`);
+                        msgsDiv.innerHTML += `<div><strong>${data.sender}:</strong> ${decrypted} 🔒</div>`;
+                    } else {
+                        console.log(`❌ No se pudo descifrar mensaje`);
+                        msgsDiv.innerHTML += `<div><strong>${data.sender}:</strong> [Mensaje cifrado] 🔒</div>`;
+                    }
+                } catch (e) {
+                    console.log(`💥 Error al descifrar`);
+                    msgsDiv.innerHTML += `<div><strong>${data.sender}:</strong> [Error]</div>`;
+                }
+            } else {
+                msgsDiv.innerHTML += `<div>${data}</div>`;
+            }
             msgsDiv.scrollTop = msgsDiv.scrollHeight;
+        });
+
+        socket.on('user_public_key', function(data) {
+            publicKeys[data.user] = data.publicKey;
+            console.log(`🔑 Clave pública de ${data.user} recibida`);
         });
 
         socket.on('disconnect', function() {
@@ -346,11 +383,45 @@
     }
 
     function enviarMsg() {
-        const msg = document.getElementById('msg').value.trim();
-        if (!msg) return;
-        socket.emit('message', msg);
-        document.getElementById('msg').value = '';
-    }
+    const msg = document.getElementById('msg').value.trim();
+    if (!msg) return;
+    
+    console.log(`✍️  Mensaje a enviar: "${msg}"`);
+    
+    const msgsDiv = document.getElementById('msgs');
+    msgsDiv.innerHTML += `<div><strong>Tú:</strong> ${msg} 🔒</div>`;
+    msgsDiv.scrollTop = msgsDiv.scrollHeight;
+    
+    socket.emit('get_recipients', {});
+    
+    socket.once('recipients_list', function(recipients) {
+        console.log(`🎯 Cifrando para: ${recipients.join(', ')}`);
+        
+        const encryptedMessages = {};
+        
+        recipients.forEach(recipient => {
+            if (publicKeys[recipient]) {
+                const tempCrypt = new JSEncrypt();
+                tempCrypt.setPublicKey(publicKeys[recipient]);
+                const encrypted = tempCrypt.encrypt(msg);
+                if (encrypted) {
+                    encryptedMessages[recipient] = encrypted;
+                    console.log(`🔒 CIFRADO para ${recipient}:`);
+                    console.log(`   ${encrypted}`);
+                }
+            }
+        });
+        
+        socket.emit('encrypted_message', {
+            encryptedMessages: encryptedMessages,
+            originalLength: msg.length
+        });
+        
+        console.log(`📤 Mensaje cifrado enviado`);
+    });
+    
+    document.getElementById('msg').value = '';
+}
 
     function salirChat() {
         if (socket) socket.disconnect();
