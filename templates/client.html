@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Flask-SocketIO</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f2f2f2; }
+        #chat { width: 80%; max-width: 640px; margin: auto; background: #fff; padding: 1em; border-radius: 8px; box-shadow: 0 0 6px #ccc; }
+        #msgs { height: 320px; overflow-y: auto; border: 1px solid #ddd; padding: 0.5em; background: #fafafa; margin-bottom: 1em; }
+        #input { display: flex; gap: 1em; }
+        input, select { font-size: 1em; padding: 0.25em; }
+        button { font-size: 1em; padding: 0.25em 1em; }
+    </style>
+</head>
+<body>
+<div id="chat">
+    <h2>💬 Chat Flask-SocketIO con Grupos</h2>
+    <div id="setup">
+        <label>Tu nombre: <input type="text" id="nombre" value="Anonimo"></label>
+        <br>
+        <label>Grupo:
+            <select id="opcion_grupo">
+                <option value="/nogroup">Chat global</option>
+                <option value="/create_group|Grupo">Crear grupo</option>
+                <option value="/join_group|">Unirse a grupo (introduce clave abajo)</option>
+            </select>
+        </label>
+        <input type="text" id="clave" placeholder="Clave grupo" style="display:none;">
+        <button onclick="conectarChat()">Entrar</button>
+    </div>
+
+    <div id="msgs" style="display:none;"></div>
+
+    <div id="input" style="display:none;">
+        <input type="text" id="msg" placeholder="Escribe tu mensaje o comando...">
+        <button onclick="enviarMsg()">Enviar</button>
+        <button onclick="salirChat()">Salir</button>
+    </div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+<script>
+    let socket;
+    let conectado = false;
+
+    document.getElementById('opcion_grupo').addEventListener('change', function() {
+        const op = this.value;
+        document.getElementById('clave').style.display = op.startsWith('/join_group|') ? '' : 'none';
+    });
+
+    function conectarChat() {
+        if (conectado) return;
+        socket = io();
+
+        const nombre = document.getElementById('nombre').value.trim() || "Anonimo";
+        socket.emit('set_name', {nombre});
+
+        let instr = document.getElementById('opcion_grupo').value;
+        if (instr.startsWith('/join_group|')) {
+            const clave = document.getElementById('clave').value.trim().toUpperCase();
+            instr = `/join_group|${clave}`;
+        } else if (instr.startsWith('/create_group|')) {
+            const grupoNombre = prompt('Nombre del grupo:', 'Grupo') || 'Grupo';
+            instr = `/create_group|${grupoNombre}`;
+        }
+        socket.emit('choose_group', {instr});
+
+        document.getElementById('setup').style.display = 'none';
+        document.getElementById('msgs').style.display = '';
+        document.getElementById('input').style.display = '';
+        conectado = true;
+
+        socket.on('server_message', function(msg) {
+            const msgsDiv = document.getElementById('msgs');
+            msgsDiv.innerHTML += `<div>${msg}</div>`;
+            msgsDiv.scrollTop = msgsDiv.scrollHeight;
+        });
+
+        socket.on('disconnect', function() {
+            document.getElementById('msgs').innerHTML += "<div>❌ Desconectado del servidor</div>";
+        });
+    }
+
+    function enviarMsg() {
+        const msg = document.getElementById('msg').value.trim();
+        if (!msg) return;
+        socket.emit('message', msg);
+        document.getElementById('msg').value = '';
+    }
+
+    function salirChat() {
+        if (socket) socket.disconnect();
+        location.reload();
+    }
+</script>
+</body>
+</html>
