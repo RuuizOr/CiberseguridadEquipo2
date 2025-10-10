@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Chat - Equipo 2</title>
@@ -10,8 +11,8 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
-        body { 
+
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 25%, #2d5a3d 75%, #4a9d5f 100%);
             min-height: 100vh;
@@ -20,19 +21,19 @@
             justify-content: center;
             padding: 20px;
         }
-        
-        #chat { 
+
+        #chat {
             width: 100%;
             max-width: 500px;
             background: rgba(15, 15, 15, 0.4);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 
-                        0 0 0 1px rgba(74, 157, 95, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(74, 157, 95, 0.2);
             padding: 2rem;
             border: 1px solid rgba(74, 157, 95, 0.3);
         }
-        
+
         h2 {
             text-align: center;
             color: white;
@@ -40,20 +41,20 @@
             font-weight: 600;
             font-size: 1.5rem;
         }
-        
+
         .subtitle {
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
             margin-bottom: 2rem;
             font-size: 0.9rem;
         }
-        
+
         #setup {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
-        
+
         label {
             font-weight: 500;
             color: white;
@@ -61,8 +62,9 @@
             display: block;
             font-size: 0.9rem;
         }
-        
-        input, select {
+
+        input,
+        select {
             width: 100%;
             padding: 0.35rem 0.8rem;
             border: 1px solid rgba(74, 157, 95, 0.3);
@@ -73,23 +75,24 @@
             backdrop-filter: blur(10px);
             color: white;
         }
-        
+
         input::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
-        
-        input:focus, select:focus {
+
+        input:focus,
+        select:focus {
             outline: none;
             border-color: #4a9d5f;
             box-shadow: 0 0 0 3px rgba(74, 157, 95, 0.2);
             background: rgba(15, 15, 15, 0.5);
         }
-        
+
         select option {
             background: #1a1a1a;
             color: white;
         }
-        
+
         #setup button {
             background: linear-gradient(135deg, #4a9d5f, #2d5a3d);
             color: white;
@@ -104,14 +107,14 @@
             letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(74, 157, 95, 0.3);
         }
-        
+
         #setup button:hover {
             background: linear-gradient(135deg, #5cb370, #4a9d5f);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(74, 157, 95, 0.4);
         }
-        
-        #msgs { 
+
+        #msgs {
             height: 320px;
             overflow-y: auto;
             border: 1px solid rgba(74, 157, 95, 0.3);
@@ -124,27 +127,27 @@
             line-height: 1.5;
             color: white;
         }
-        
+
         #msgs::-webkit-scrollbar {
             width: 6px;
         }
-        
+
         #msgs::-webkit-scrollbar-track {
             background: rgba(74, 157, 95, 0.1);
             border-radius: 3px;
         }
-        
+
         #msgs::-webkit-scrollbar-thumb {
             background: rgba(74, 157, 95, 0.4);
             border-radius: 3px;
         }
-        
+
         #input {
             display: flex;
             flex-direction: column;
             gap: 1rem;
         }
-        
+
         #emojis {
             display: flex;
             flex-wrap: wrap;
@@ -156,7 +159,7 @@
             border-radius: 12px;
             border: 1px solid rgba(74, 157, 95, 0.2);
         }
-        
+
         .emoji-btn {
             font-size: 1.5rem;
             background: rgba(15, 15, 15, 0.4);
@@ -171,23 +174,23 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        
+
         .emoji-btn:hover {
             transform: scale(1.1);
             background: rgba(74, 157, 95, 0.2);
             border-color: #4a9d5f;
         }
-        
+
         .input-row {
             display: flex;
             gap: 0.75rem;
             align-items: center;
         }
-        
+
         .input-row input {
             flex: 1;
         }
-        
+
         .send-btn {
             background: rgba(52, 152, 219, 0.8);
             backdrop-filter: blur(10px);
@@ -203,13 +206,13 @@
             transition: all 0.3s ease;
             font-size: 1.2rem;
         }
-        
+
         .send-btn:hover {
             background: rgba(52, 152, 219, 1);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
         }
-        
+
         .exit-btn {
             position: absolute;
             top: 1rem;
@@ -229,216 +232,217 @@
             font-size: 0.8rem;
             opacity: 0.7;
         }
-        
+
         .exit-btn:hover {
             background: rgba(231, 76, 60, 0.9);
             opacity: 1;
             transform: scale(1.1);
         }
-        
+
         .chat-container {
             position: relative;
         }
-        
+
         @media (max-width: 600px) {
             #chat {
                 margin: 10px;
                 padding: 1.5rem;
             }
-            
+
             .input-row {
                 gap: 0.5rem;
             }
         }
     </style>
 </head>
+
 <body>
-<div id="chat" class="chat-container">
-    <h2>WhatsApp Fake</h2>
-    <div class="subtitle">Equipo 2</div>
-    
-    <div id="setup">
-        <label>Nombre de usuario:</label>
-        <input type="text" id="nombre" placeholder="Ingresa tu nombre">
-        
-        <label>Sala:</label>
-        <select id="opcion_grupo">
-            <option value="/nogroup">Chat global</option>
-            <option value="/create_group|Grupo">Crear grupo</option>
-            <option value="/join_group|">Unirse a grupo (introduce clave abajo)</option>
-        </select>
-        
-        <input type="text" id="clave" placeholder="Clave del grupo" style="display:none;">
-        <button onclick="conectarChat()">Unirse al Chat</button>
+    <div id="chat" class="chat-container">
+        <h2>WhatsApp Fake</h2>
+        <div class="subtitle">Equipo 2</div>
+
+        <div id="setup">
+            <label>Nombre de usuario:</label>
+            <input type="text" id="nombre" placeholder="Ingresa tu nombre">
+
+            <label>Sala:</label>
+            <select id="opcion_grupo">
+                <option value="/nogroup">Chat global</option>
+                <option value="/create_group|Grupo">Crear grupo</option>
+                <option value="/join_group|">Unirse a grupo (introduce clave abajo)</option>
+            </select>
+
+            <input type="text" id="clave" placeholder="Clave del grupo" style="display:none;">
+            <button onclick="conectarChat()">Unirse al Chat</button>
+        </div>
+
+        <div id="msgs" style="display:none;"></div>
+
+        <div id="input" style="display:none;">
+            <button class="exit-btn" onclick="salirChat()" title="Salir">✕</button>
+
+            <div id="emojis">
+                <button class="emoji-btn" onclick="addEmoji('😀')">😀</button>
+                <button class="emoji-btn" onclick="addEmoji('😂')">😂</button>
+                <button class="emoji-btn" onclick="addEmoji('😎')">😎</button>
+                <button class="emoji-btn" onclick="addEmoji('🥳')">🥳</button>
+                <button class="emoji-btn" onclick="addEmoji('👍')">👍</button>
+                <button class="emoji-btn" onclick="addEmoji('❤️')">❤️</button>
+                <button class="emoji-btn" onclick="addEmoji('🔥')">🔥</button>
+                <button class="emoji-btn" onclick="addEmoji('🎉')">🎉</button>
+            </div>
+            <div class="input-row">
+                <input type="text" id="msg" placeholder="Escribe tu mensaje">
+                <button class="send-btn" onclick="enviarMsg()" title="Enviar">➤</button>
+            </div>
+        </div>
     </div>
 
-    <div id="msgs" style="display:none;"></div>
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
+    <script>
+        let socket;
+        let conectado = false;
+        let crypt = new JSEncrypt({ default_key_size: 2048 });
+        let publicKeys = {};
 
-    <div id="input" style="display:none;">
-        <button class="exit-btn" onclick="salirChat()" title="Salir">✕</button>
-        
-        <div id="emojis">
-            <button class="emoji-btn" onclick="addEmoji('😀')">😀</button>
-            <button class="emoji-btn" onclick="addEmoji('😂')">😂</button>
-            <button class="emoji-btn" onclick="addEmoji('😎')">😎</button>
-            <button class="emoji-btn" onclick="addEmoji('🥳')">🥳</button>
-            <button class="emoji-btn" onclick="addEmoji('👍')">👍</button>
-            <button class="emoji-btn" onclick="addEmoji('❤️')">❤️</button>
-            <button class="emoji-btn" onclick="addEmoji('🔥')">🔥</button>
-            <button class="emoji-btn" onclick="addEmoji('🎉')">🎉</button>
-        </div>
-        <div class="input-row">
-            <input type="text" id="msg" placeholder="Escribe tu mensaje">
-            <button class="send-btn" onclick="enviarMsg()" title="Enviar">➤</button>
-        </div>
-    </div>
-</div>
+        crypt.getKey();
+        console.log("🔑 Claves RSA generadas");
 
-<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
-<script>
-    let socket;
-    let conectado = false;
-    let crypt = new JSEncrypt({default_key_size: 2048});
-    let publicKeys = {};
-
-    crypt.getKey();
-    console.log("🔑 Claves RSA generadas");
-
-    document.getElementById('opcion_grupo').addEventListener('change', function() {
-        const op = this.value;
-        document.getElementById('clave').style.display = op.startsWith('/join_group|') ? '' : 'none';
-    });
-
-    function conectarChat() {
-        if (conectado) return;
-        
-        const nombre = document.getElementById('nombre').value.trim();
-        if (!nombre) {
-            alert('Por favor, ingresa tu nombre para continuar');
-            return;
-        }
-        
-        socket = io();
-        
-        const publicKey = crypt.getPublicKey();
-        console.log("📤 Clave pública enviada al servidor");
-        
-        socket.emit('set_name', {
-            nombre: nombre,
-            publicKey: publicKey
+        document.getElementById('opcion_grupo').addEventListener('change', function () {
+            const op = this.value;
+            document.getElementById('clave').style.display = op.startsWith('/join_group|') ? '' : 'none';
         });
 
-        let instr = document.getElementById('opcion_grupo').value;
-        if (instr.startsWith('/join_group|')) {
-            const clave = document.getElementById('clave').value.trim().toUpperCase();
-            if (!clave) {
-                alert('Por favor, ingresa la clave del grupo');
+        function conectarChat() {
+            if (conectado) return;
+
+            const nombre = document.getElementById('nombre').value.trim();
+            if (!nombre) {
+                alert('Por favor, ingresa tu nombre para continuar');
                 return;
             }
-            instr = `/join_group|${clave}`;
-        } else if (instr.startsWith('/create_group|')) {
-            const grupoNombre = prompt('Nombre del grupo:', 'Grupo') || 'Grupo';
-            instr = `/create_group|${grupoNombre}`;
-        }
-        socket.emit('choose_group', {instr});
 
-        document.getElementById('setup').style.display = 'none';
-        document.getElementById('msgs').style.display = '';
-        document.getElementById('input').style.display = '';
-        conectado = true;
+            socket = io();
 
-        socket.on('server_message', function(data) {
-            const msgsDiv = document.getElementById('msgs');
-            if (typeof data === 'object' && data.encrypted) {
-                console.log(`📨 Mensaje CIFRADO recibido de: ${data.sender}`);
-                
-                try {
-                    const decrypted = crypt.decrypt(data.message);
-                    if (decrypted) {
-                        console.log(`✅ DESCIFRADO: "${decrypted}"`);
-                        msgsDiv.innerHTML += `<div><strong>${data.sender}:</strong> ${decrypted} 🔒</div>`;
-                    } else {
-                        console.log(`❌ No se pudo descifrar mensaje`);
-                        msgsDiv.innerHTML += `<div><strong>${data.sender}:</strong> [Mensaje cifrado] 🔒</div>`;
+            const publicKey = crypt.getPublicKey();
+            console.log("📤 Clave pública enviada al servidor");
+
+            socket.emit('set_name', {
+                nombre: nombre,
+                publicKey: publicKey
+            });
+
+            let instr = document.getElementById('opcion_grupo').value;
+            if (instr.startsWith('/join_group|')) {
+                const clave = document.getElementById('clave').value.trim().toUpperCase();
+                if (!clave) {
+                    alert('Por favor, ingresa la clave del grupo');
+                    return;
+                }
+                instr = `/join_group|${clave}`;
+            } else if (instr.startsWith('/create_group|')) {
+                const grupoNombre = prompt('Nombre del grupo:', 'Grupo') || 'Grupo';
+                instr = `/create_group|${grupoNombre}`;
+            }
+            socket.emit('choose_group', { instr });
+
+            document.getElementById('setup').style.display = 'none';
+            document.getElementById('msgs').style.display = '';
+            document.getElementById('input').style.display = '';
+            conectado = true;
+
+            socket.on('server_message', function (data) {
+                const msgsDiv = document.getElementById('msgs');
+                if (typeof data === 'object' && data.encrypted) {
+                    console.log(`📨 Mensaje CIFRADO recibido de: ${data.sender}`);
+
+                    try {
+                        const decrypted = crypt.decrypt(data.message);
+                        if (decrypted) {
+                            console.log(`✅ DESCIFRADO: "${decrypted}"`);
+                            msgsDiv.innerHTML += `<div><strong>${data.sender}:</strong> ${decrypted} 🔒</div>`;
+                        } else {
+                            console.log(`❌ No se pudo descifrar mensaje`);
+                            msgsDiv.innerHTML += `<div><strong>${data.sender}:</strong> [Mensaje cifrado] 🔒</div>`;
+                        }
+                    } catch (e) {
+                        console.log(`💥 Error al descifrar`);
+                        msgsDiv.innerHTML += `<div><strong>${data.sender}:</strong> [Error]</div>`;
                     }
-                } catch (e) {
-                    console.log(`💥 Error al descifrar`);
-                    msgsDiv.innerHTML += `<div><strong>${data.sender}:</strong> [Error]</div>`;
+                } else {
+                    msgsDiv.innerHTML += `<div>${data}</div>`;
                 }
-            } else {
-                msgsDiv.innerHTML += `<div>${data}</div>`;
-            }
-            msgsDiv.scrollTop = msgsDiv.scrollHeight;
-        });
+                msgsDiv.scrollTop = msgsDiv.scrollHeight;
+            });
 
-        socket.on('user_public_key', function(data) {
-            publicKeys[data.user] = data.publicKey;
-            console.log(`🔑 Clave pública de ${data.user} recibida`);
-        });
+            socket.on('user_public_key', function (data) {
+                publicKeys[data.user] = data.publicKey;
+                console.log(`🔑 Clave pública de ${data.user} recibida`);
+            });
 
-        socket.on('disconnect', function() {
-            document.getElementById('msgs').innerHTML += "<div>❌ Desconectado del servidor</div>";
-        });
-    }
-
-    function enviarMsg() {
-    const msg = document.getElementById('msg').value.trim();
-    if (!msg) return;
-    
-    console.log(`✍️  Mensaje a enviar: "${msg}"`);
-    
-    const msgsDiv = document.getElementById('msgs');
-    msgsDiv.innerHTML += `<div><strong>Tú:</strong> ${msg} 🔒</div>`;
-    msgsDiv.scrollTop = msgsDiv.scrollHeight;
-    
-    socket.emit('get_recipients', {});
-    
-    socket.once('recipients_list', function(recipients) {
-        console.log(`🎯 Cifrando para: ${recipients.join(', ')}`);
-        
-        const encryptedMessages = {};
-        
-        recipients.forEach(recipient => {
-            if (publicKeys[recipient]) {
-                const tempCrypt = new JSEncrypt();
-                tempCrypt.setPublicKey(publicKeys[recipient]);
-                const encrypted = tempCrypt.encrypt(msg);
-                if (encrypted) {
-                    encryptedMessages[recipient] = encrypted;
-                    console.log(`🔒 CIFRADO para ${recipient}:`);
-                    console.log(`   ${encrypted}`);
-                }
-            }
-        });
-        
-        socket.emit('encrypted_message', {
-            encryptedMessages: encryptedMessages,
-            originalLength: msg.length
-        });
-        
-        console.log(`📤 Mensaje cifrado enviado`);
-    });
-    
-    document.getElementById('msg').value = '';
-}
-
-    function salirChat() {
-        if (socket) socket.disconnect();
-        location.reload();
-    }
-
-    function addEmoji(emoji) {
-        const msgInput = document.getElementById('msg');
-        msgInput.value += emoji;
-        msgInput.focus();
-    }
-
-    document.getElementById('msg').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            enviarMsg();
+            socket.on('disconnect', function () {
+                document.getElementById('msgs').innerHTML += "<div>❌ Desconectado del servidor</div>";
+            });
         }
-    });
-</script>
+
+        function enviarMsg() {
+            const msg = document.getElementById('msg').value.trim();
+            if (!msg) return;
+
+            console.log(`✍️  Mensaje a enviar: "${msg}"`);
+
+            const msgsDiv = document.getElementById('msgs');
+            msgsDiv.innerHTML += `<div><strong>Tú:</strong> ${msg} 🔒</div>`;
+            msgsDiv.scrollTop = msgsDiv.scrollHeight;
+
+            socket.emit('get_recipients', {});
+
+            socket.once('recipients_list', function (recipients) {
+                console.log(`🎯 Cifrando para: ${recipients.join(', ')}`);
+
+                const encryptedMessages = {};
+
+                recipients.forEach(recipient => {
+                    if (publicKeys[recipient]) {
+                        const tempCrypt = new JSEncrypt();
+                        tempCrypt.setPublicKey(publicKeys[recipient]);
+                        const encrypted = tempCrypt.encrypt(msg);
+                        if (encrypted) {
+                            encryptedMessages[recipient] = encrypted;
+                            console.log(`🔒 CIFRADO para ${recipient}:`);
+                            console.log(`   ${encrypted}`);
+                        }
+                    }
+                });
+
+                socket.emit('encrypted_message', {
+                    encryptedMessages: encryptedMessages,
+                    originalLength: msg.length
+                });
+
+                console.log(`📤 Mensaje cifrado enviado`);
+            });
+
+            document.getElementById('msg').value = '';
+        }
+        function salirChat() {
+            if (socket) socket.disconnect();
+            location.reload();
+        }
+
+        function addEmoji(emoji) {
+            const msgInput = document.getElementById('msg');
+            msgInput.value += emoji;
+            msgInput.focus();
+        }
+
+        document.getElementById('msg').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                enviarMsg();
+            }
+        });
+    </script>
 </body>
+
 </html>

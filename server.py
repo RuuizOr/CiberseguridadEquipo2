@@ -4,12 +4,15 @@ import random
 import string
 import mysql.connector
 from datetime import datetime
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)  # Solo muestra errores, no las peticiones normales
 
 # --- Conexión MySQL ---
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="",
+    password="root",
     database="chat"
 )
 cursor = db.cursor(dictionary=True)
@@ -192,7 +195,7 @@ def handle_encrypted_message(data):
             }, room=recipient_sid)
             log_crypto("Entregado a", recipient_name)
 
-            
+
 # --- Mensajes normales (para comandos) ---
 @socketio.on('message')
 def handle_message(msg):
